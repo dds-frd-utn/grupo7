@@ -9,3 +9,6 @@
 ### Caso de Uso
 
 ![useCase](http://i.imgur.com/S1eQEUv.jpg)
+
+### Documentación
+[Doc](https://docs.google.com/document/d/1zVLNdjBmkQjNGp4PjBjGRkJ8egceWugN9IgNnC1OJJg/edit?usp=sharing)
