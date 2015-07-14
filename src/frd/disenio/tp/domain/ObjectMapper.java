@@ -17,7 +17,7 @@ public class ObjectMapper {
 	// Pagina hardcodeada.
 	private String urlPagina = "http://www.betterjobs.com/jobRoll?DeveloperKey=9239e10c-9034-4763-bf4e-146f350d0b7a&FullDescription=true";
 	private JSONParser parser = new JSONParser(); // parser de JSON
-
+// Hola
 	// toma el json bajado y devuelve el campo results del mismo
 	private JSONObject filterResults(String jsonBajado) throws ParseException {
 		ContainerFactory containerFactory = new ContainerFactory() {
