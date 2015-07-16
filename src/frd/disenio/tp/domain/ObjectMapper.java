@@ -18,12 +18,12 @@ public class ObjectMapper {
 	// Pagina hardcodeada.
 	private String urlPagina = "http://www.betterjobs.com/jobRoll?DeveloperKey=9239e10c-9034-4763-bf4e-146f350d0b7a&FullDescription=true";
 	private JSONParser parser = new JSONParser(); // parser de JSON
-<<<<<<< HEAD
-// Hola
-=======
 
-	// Baja el codigo fuente (en este caso el JSON) de una dirección web pasada como parametro.
-	private String downloadJSON(String url) {
+// Hola
+
+
+	// Baja el codigo fuente (en este caso el JSON) de una direcciï¿½n web pasada como parametro.
+	private String downloadJSON(String url) throws IOException {
 	    URL urlpagina = null;
 	    InputStreamReader isr = null;
 	    BufferedReader br = null;
@@ -41,16 +41,13 @@ public class ObjectMapper {
 	      isr.close();
 	    } catch (MalformedURLException e) {
 	      System.out.println("Error en la url");
-	    } catch (IOException e) {
-	      System.out.println("Error al leer la pagina web");
 	    }
 
 	    return buffer.toString();
 	}
 	
->>>>>>> 455c0166dd442cbe331d342853d473eb32f38d49
 	// toma el json bajado y devuelve el campo results del mismo
-	private JSONArray filterResults(String url) throws ParseException {
+	private JSONArray filterResults(String url) throws ParseException, IOException {
 		String json = downloadJSON(url);
 		JSONObject webSearchResponse = (JSONObject) parser.parse(json);
 		webSearchResponse = (JSONObject) webSearchResponse.get("responseJobSearch");
@@ -100,7 +97,7 @@ public class ObjectMapper {
 		return newJob;
 	}
 
-	public List<Job> getJobs() throws ParseException {
+	public List<Job> getJobs() throws ParseException, IOException {
 		return generateList(filterResults(urlPagina));
 	}
 }
