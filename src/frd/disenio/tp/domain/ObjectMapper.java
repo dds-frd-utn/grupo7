@@ -19,61 +19,61 @@ public class ObjectMapper {
 	private String urlPagina = "http://www.betterjobs.com/jobRoll?DeveloperKey=9239e10c-9034-4763-bf4e-146f350d0b7a&FullDescription=true";
 	private JSONParser parser = new JSONParser(); // parser de JSON
 
-// Hola
+	// Hola
 
-
-	// Baja el codigo fuente (en este caso el JSON) de una direcci�n web pasada como parametro.
+	// Baja el codigo fuente (en este caso el JSON) de una direcci�n web pasada
+	// como parametro.
 	private String downloadJSON(String url) throws IOException {
-	    URL urlpagina = null;
-	    InputStreamReader isr = null;
-	    BufferedReader br = null;
-	    String linea;
-	    StringBuffer buffer = new StringBuffer();
+		URL urlpagina = null;
+		InputStreamReader isr = null;
+		BufferedReader br = null;
+		String linea;
+		StringBuffer buffer = new StringBuffer();
 
-	    try {
-	      urlpagina = new URL(url);
-	      isr = new InputStreamReader(urlpagina.openStream());
-	      br = new BufferedReader(isr);
-	      while ((linea = br.readLine()) != null){
-	        buffer.append(linea);
-	      }
-	      br.close();
-	      isr.close();
-	    } catch (MalformedURLException e) {
-	      System.out.println("Error en la url");
-	    }
+		try {
+			urlpagina = new URL(url);
+			isr = new InputStreamReader(urlpagina.openStream());
+			br = new BufferedReader(isr);
+			while ((linea = br.readLine()) != null) {
+				buffer.append(linea);
+			}
+			br.close();
+			isr.close();
+		} catch (MalformedURLException e) {
+			System.out.println("Error en la url");
+		}
 
-	    return buffer.toString();
+		return buffer.toString();
 	}
-	
+
 	// toma el json bajado y devuelve el campo results del mismo
-	private JSONArray filterResults(String url) throws ParseException, IOException {
+	private JSONArray filterResults(String url) throws ParseException,
+			IOException {
 		String json = downloadJSON(url);
 		JSONObject webSearchResponse = (JSONObject) parser.parse(json);
-		webSearchResponse = (JSONObject) webSearchResponse.get("responseJobSearch");
+		webSearchResponse = (JSONObject) webSearchResponse
+				.get("responseJobSearch");
 		JSONArray results = (JSONArray) webSearchResponse.get("Results");
-		
+
 		return results;
 	}
 
 	// genera la lista con los trabajos
 	private List<Job> generateList(JSONArray results) {
 		ArrayList<Job> jobsList = new ArrayList<Job>();
-		Iterator<JSONObject> jobIter = results.iterator(); // iterador de trabajo
-		while (jobIter.hasNext()) {
-			jobsList.add(createJob(jobIter.next()));
-		}
-
+		results.forEach(job -> jobsList.add(createJob((JSONObject) job)));
 		return jobsList;
 	}
-	
-	// Devuelve una instancia de la clase Job con los atributos del JSON pasado como parametro.
+
+	// Devuelve una instancia de la clase Job con los atributos del JSON pasado
+	// como parametro.
 	private Job createJob(JSONObject jsonObject) {
 		Job newJob = new Job();
-		
+
 		newJob.setCity((String) jsonObject.get("city"));
 		newJob.setCompany((String) jsonObject.get("company"));
-		newJob.setCompanyDetailsURL((String) jsonObject.get("companyDetailsURL"));
+		newJob.setCompanyDetailsURL((String) jsonObject
+				.get("companyDetailsURL"));
 		newJob.setCountry((String) jsonObject.get("country"));
 		newJob.setDistance((String) jsonObject.get("distance"));
 		newJob.setDocumentID((String) jsonObject.get("documentID"));
@@ -93,7 +93,7 @@ public class ObjectMapper {
 		newJob.setSocCode((String) jsonObject.get("socCode"));
 		newJob.setSource((String) jsonObject.get("source"));
 		newJob.setState((String) jsonObject.get("state"));
-		
+
 		return newJob;
 	}
 
