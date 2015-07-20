@@ -1,5 +1,4 @@
 package frd.disenio.tp.domain;
-// import com.fasterxml.jackson.databind.ObjectMapper; // para el object mapper
 
 // clase con los atributos que posee un trabajo segun el json y los accessors para cada uno.
 public class Job {
@@ -19,7 +18,7 @@ public class Job {
 	private String locationLat;
 	private String locationLon;
 	private String pay;
-	private String postedDate; // quiza un Date en vez de string?
+	private String postedDate; 
 	private boolean showSocCode;
 	private String similarJobsURL;
 	private String socCode;

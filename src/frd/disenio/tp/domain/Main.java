@@ -14,7 +14,7 @@ public class Main {
 			List<Job> listaFede  = o.getJobs();
 			for (Job job : listaFede)
 				System.out.println(job.getCompany() + ' '+ job.getCountry());
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

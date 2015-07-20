@@ -24,13 +24,19 @@ public class ObjectMapperTest {
 
 		assertEquals(lista.size(), 25);
 	}
-	/* El contenido del json cambia con el tiempo -> no podemos hardcodear el string a comparar -> revisar
-	 * 
-	 * @Test public void bajaCorrectamenteElPrimerCampo() { ObjectMapper o = new
-	 * ObjectMapper(); List<Job> lista = new ArrayList<Job>(); try { lista =
-	 * o.getJobs(); } catch (Exception e) { e.printStackTrace(); } String
-	 * compania = lista.get(0).getCompany();
-	 * 
-	 * assertEquals(compania,"Aerotek"); }
-	 */
+
+	/*
+	 * @Test
+	public void bajaCorrectamenteElPrimerCampo() {
+		ObjectMapper o = new ObjectMapper();
+		List<Job> lista = new ArrayList<Job>();
+		try {
+			lista = o.getJobs();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String compania = lista.get(0).getCompany();
+		assertEquals(compania, "Aerotek");
+	}*/
+
 }

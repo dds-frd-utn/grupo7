@@ -3,10 +3,10 @@ package frd.disenio.tp.domain;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -17,11 +17,9 @@ import org.json.simple.parser.ParseException;
 public class ObjectMapper {
 	// Pagina hardcodeada.
 	private String urlPagina = "http://www.betterjobs.com/jobRoll?DeveloperKey=9239e10c-9034-4763-bf4e-146f350d0b7a&FullDescription=true";
-	private JSONParser parser = new JSONParser(); // parser de JSON
+	private JSONParser parser = new JSONParser();
 
-	// Hola
-
-	// Baja el codigo fuente (en este caso el JSON) de una direcci�n web pasada
+	// Baja el codigo fuente (en este caso el JSON) de una direccion web pasada
 	// como parametro.
 	private String downloadJSON(String url) throws IOException {
 		URL urlpagina = null;
@@ -59,7 +57,9 @@ public class ObjectMapper {
 	}
 
 	// genera la lista con los trabajos
-	private List<Job> generateList(JSONArray results) {
+	@SuppressWarnings("unchecked")
+	private List<Job> generateList(JSONArray results)
+			throws IllegalArgumentException, IllegalAccessException {
 		ArrayList<Job> jobsList = new ArrayList<Job>();
 		results.forEach(job -> jobsList.add(createJob((JSONObject) job)));
 		return jobsList;
@@ -69,35 +69,20 @@ public class ObjectMapper {
 	// como parametro.
 	private Job createJob(JSONObject jsonObject) {
 		Job newJob = new Job();
-
-		newJob.setCity((String) jsonObject.get("city"));
-		newJob.setCompany((String) jsonObject.get("company"));
-		newJob.setCompanyDetailsURL((String) jsonObject
-				.get("companyDetailsURL"));
-		newJob.setCountry((String) jsonObject.get("country"));
-		newJob.setDistance((String) jsonObject.get("distance"));
-		newJob.setDocumentID((String) jsonObject.get("documentID"));
-		newJob.setEmploymentType((String) jsonObject.get("employmentType"));
-		newJob.setHighlight((String) jsonObject.get("highlight"));
-		newJob.setJobDetails((String) jsonObject.get("jobDetails"));
-		newJob.setJobDetailsURL((String) jsonObject.get("jobDetailsURL"));
-		newJob.setJobServiceURL((String) jsonObject.get("jobServiceURL"));
-		newJob.setJobTitle((String) jsonObject.get("jobTitle"));
-		newJob.setLocation((String) jsonObject.get("location"));
-		newJob.setLocationLat((String) jsonObject.get("locationLat"));
-		newJob.setLocationLon((String) jsonObject.get("locationLon"));
-		newJob.setPay((String) jsonObject.get("pay"));
-		newJob.setPostedDate((String) jsonObject.get("postedDate"));
-		newJob.setShowSocCode((boolean) jsonObject.get("showSocCode"));
-		newJob.setSimilarJobsURL((String) jsonObject.get("similarJobsURL"));
-		newJob.setSocCode((String) jsonObject.get("socCode"));
-		newJob.setSource((String) jsonObject.get("source"));
-		newJob.setState((String) jsonObject.get("state"));
-
+		Class<Job> jobClass = Job.class;
+		try {
+			Field[] fields = jobClass.getFields();
+			for (Field f : fields) {
+				f.set(newJob, jsonObject.get(f.toString()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return newJob;
 	}
 
-	public List<Job> getJobs() throws ParseException, IOException {
+	public List<Job> getJobs() throws ParseException, IOException,
+			IllegalArgumentException, IllegalAccessException {
 		return generateList(filterResults(urlPagina));
 	}
 }
